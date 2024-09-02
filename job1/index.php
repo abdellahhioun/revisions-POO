@@ -11,6 +11,7 @@ $product = new Product(
     1000, 
     'T-shirt for men', 
     10, 
+    2,
     new DateTime('2023-09-01 12:00:00'), 
     new DateTime('2023-09-01 12:00:00')
 );

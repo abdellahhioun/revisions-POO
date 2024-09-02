@@ -6,16 +6,18 @@ class Product{
     private int $price;
     private string $description;
     private int $quantity;
+    private int $category_id;
     private DateTime $createdAt;
     private DateTime $updatedAt;
 
-    public function __construct($id, $name, $photos, $price, $description, $quantity, $createdAt, $updatedAt){
+    public function __construct($id, $name, $photos, $price, $description, $quantity,$category_id ,$createdAt, $updatedAt){
         $this->id = $id;
         $this->name = $name;
         $this->photos = $photos;
         $this->price = $price;
         $this->description = $description;
         $this->quantity = $quantity;
+        $this->category_id = $category_id;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
     }
@@ -42,6 +44,10 @@ class Product{
 
     public function getQuantity(){  
         return $this->quantity;
+    }
+
+    public function getCategoryId(){
+        return $this->category_id;
     }
 
     public function getCreatedAt(){
@@ -82,6 +88,11 @@ class Product{
         $this->updateTimestamp();    
     }
 
+    public function setCategoryId(int $category_id): void {
+        $this->category_id = $category_id;
+        $this->updateTimestamp();
+    }
+
     public function setCreatedAt(DateTime $createdAt): void {
         $this->createdAt = $createdAt;
         $this->updateTimestamp();
@@ -97,7 +108,7 @@ class Product{
     }
 }   
 
-$product = new Product(1, 'T-shirt' , ['https://picsum.photos/200/300'], 1000, 'T-shirt for men', 10, new DateTime(), new DateTime()); 
+$product = new Product(1, 'T-shirt' , ['https://picsum.photos/200/300'], 1000, 'T-shirt for men', 10, 2,new DateTime(), new DateTime()); 
   
 
 
