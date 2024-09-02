@@ -20,6 +20,38 @@ class Product{
         $this->updatedAt = $updatedAt;
     }
 
+    public function getId(){
+        return $this->id;
+    }
+
+    public function getName(){  
+        return $this->name;
+    }
+
+    public function getPhotos(){
+        return $this->photos;
+    }
+
+    public function getPrice(){
+        return $this->price;
+    }
+
+    public function getDescription(){
+        return $this->description;
+    }
+
+    public function getQuantity(){  
+        return $this->quantity;
+    }
+
+    public function getCreatedAt(){
+        return $this->createdAt;
+    }
+
+    public function getUpdatedAt(){
+        return $this->updatedAt;
+    }
+    
 
 
 
