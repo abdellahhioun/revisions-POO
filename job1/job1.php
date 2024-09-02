@@ -1,5 +1,6 @@
 <?php
-class Product{
+
+class Product {
     private int $id;
     private string $name;
     private array $photos;
@@ -10,7 +11,18 @@ class Product{
     private DateTime $createdAt;
     private DateTime $updatedAt;
 
-    public function __construct($id, $name, $photos, $price, $description, $quantity,$category_id ,$createdAt, $updatedAt){
+    // Constructeur avec paramètres optionnels
+    public function __construct(
+        int $id = 0,
+        string $name = '',
+        array $photos = [],
+        int $price = 0,
+        string $description = '',
+        int $quantity = 0,
+        int $category_id = 0,
+        DateTime $createdAt = null,
+        DateTime $updatedAt = null
+    ) {
         $this->id = $id;
         $this->name = $name;
         $this->photos = $photos;
@@ -18,46 +30,48 @@ class Product{
         $this->description = $description;
         $this->quantity = $quantity;
         $this->category_id = $category_id;
-        $this->createdAt = $createdAt;
-        $this->updatedAt = $updatedAt;
+        $this->createdAt = $createdAt ?? new DateTime();
+        $this->updatedAt = $updatedAt ?? new DateTime();
     }
 
-    public function getId(){
+    // Getters
+    public function getId(): int {
         return $this->id;
     }
 
-    public function getName(){  
+    public function getName(): string {
         return $this->name;
     }
 
-    public function getPhotos(){
+    public function getPhotos(): array {
         return $this->photos;
     }
 
-    public function getPrice(){
+    public function getPrice(): int {
         return $this->price;
     }
 
-    public function getDescription(){
+    public function getDescription(): string {
         return $this->description;
     }
 
-    public function getQuantity(){  
+    public function getQuantity(): int {
         return $this->quantity;
     }
 
-    public function getCategoryId(){
+    public function getCategoryId(): int {
         return $this->category_id;
     }
 
-    public function getCreatedAt(){
+    public function getCreatedAt(): DateTime {
         return $this->createdAt;
     }
 
-    public function getUpdatedAt(){
+    public function getUpdatedAt(): DateTime {
         return $this->updatedAt;
     }
 
+    // Setters
     public function setId(int $id): void {
         $this->id = $id;
         $this->updateTimestamp();
@@ -103,15 +117,30 @@ class Product{
         $this->updateTimestamp();
     }
 
-    private function updateTimestamp(){
+    // Méthode pour récupérer la catégorie associée
+    public function getCategory(PDO $pdo) {
+        $stmt = $pdo->prepare('SELECT * FROM category WHERE id = :id');
+        $stmt->bindParam(':id', $this->category_id, PDO::PARAM_INT);
+        $stmt->execute();
+        $categoryData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($categoryData) {
+            return new Category(
+                $categoryData['id'],
+                $categoryData['name'],
+                $categoryData['description'],
+                new DateTime($categoryData['createdAt']),
+                new DateTime($categoryData['updatedAt'])
+            );
+        } else {
+            return null;  // Ou vous pouvez lever une exception si la catégorie n'est pas trouvée
+        }
+    }
+
+    // Méthode privée pour mettre à jour la date de mise à jour
+    private function updateTimestamp() {
         $this->updatedAt = new DateTime();
     }
-}   
-
-$product = new Product(1, 'T-shirt' , ['https://picsum.photos/200/300'], 1000, 'T-shirt for men', 10, 2,new DateTime(), new DateTime()); 
-  
-
-
-
+}
 
 ?>
