@@ -51,13 +51,53 @@ class Product{
     public function getUpdatedAt(){
         return $this->updatedAt;
     }
-    
 
+    public function setId(int $id): void {
+        $this->id = $id;
+        $this->updateTimestamp();
+    }
 
+    public function setName(string $name): void {
+        $this->name = $name;
+        $this->updateTimestamp();
+    }
 
+    public function setPhotos(array $photos): void {
+        $this->photos = $photos;
+        $this->updateTimestamp();
+    }
 
+    public function setPrice(int $price): void {
+        $this->price = $price;
+        $this->updateTimestamp();
+    }
 
-}
+    public function setDescription(string $description): void {
+        $this->description = $description;
+        $this->updateTimestamp();
+    }
+
+    public function setQuantity(int $quantity): void {
+        $this->quantity = $quantity;
+        $this->updateTimestamp();    
+    }
+
+    public function setCreatedAt(DateTime $createdAt): void {
+        $this->createdAt = $createdAt;
+        $this->updateTimestamp();
+    }
+
+    public function setUpdatedAt(DateTime $updatedAt): void {
+        $this->updatedAt = $updatedAt;
+        $this->updateTimestamp();
+    }
+
+    private function updateTimestamp(){
+        $this->updatedAt = new DateTime();
+    }
+}   
+
+$product = new Product(1, 'T-shirt' , ['https://picsum.photos/200/300'], 1000, 'T-shirt for men', 10, new DateTime(), new DateTime()); 
   
 
 
