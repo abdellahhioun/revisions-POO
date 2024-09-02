@@ -1,40 +1,29 @@
 <?php
 
-// Inclure la classe Product
-require_once 'job1.php';
+$productId = 7;
+$stmt = $pdo->prepare('SELECT * FROM product WHERE id = :id');
+$stmt->bindParam(':id', $productId, PDO::PARAM_INT);
+$stmt->execute();
 
-// Instanciation d'un objet Product
-$product = new Product(
-    1, 
-    'T-shirt', 
-    ['https://picsum.photos/200/300'], 
-    1000, 
-    'T-shirt for men', 
-    10, 
-    2,
-    new DateTime('2023-09-01 12:00:00'), 
-    new DateTime('2023-09-01 12:00:00')
-);
+$productData = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Utilisation des getters pour récupérer les propriétés
-var_dump($product->getId());
-var_dump($product->getName());
-var_dump($product->getPhotos());
-var_dump($product->getPrice());
-var_dump($product->getDescription());
-var_dump($product->getQuantity());
-var_dump($product->getCreatedAt());
-var_dump($product->getUpdatedAt());
+if ($productData) {
+    // Si le produit existe, nous allons créer une instance de la classe Product
+    $product = new Product(
+        $productData['id'],
+        $productData['name'],
+        json_decode($productData['photos'], true), // Les photos sont stockées sous forme de JSON
+        $productData['price'],
+        $productData['description'],
+        $productData['quantity'],
+        $productData['category_id'],
+        new DateTime($productData['createdAt']),
+        new DateTime($productData['updatedAt'])
+    );
 
-// Modification de certaines propriétés via les setters
-$product->setName("Updated T-shirt");
-$product->setPrice(1200);
-$product->setQuantity(15);
-
-// Vérification des nouvelles valeurs après modification
-var_dump($product->getName());
-var_dump($product->getPrice());
-var_dump($product->getQuantity());
-var_dump($product->getUpdatedAt()); // Vérifiez que la date de mise à jour a changé
-
+    // Utilisation de var_dump pour vérifier l'objet hydraté
+    var_dump($product);
+} else {
+    echo "Produit avec l'ID 7 non trouvé.";
+}
 ?>
