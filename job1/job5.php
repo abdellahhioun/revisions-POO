@@ -8,7 +8,6 @@ $stmt->execute();
 $productData = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($productData) {
-
     $product = new Product(
         $productData['id'],
         $productData['name'],
@@ -21,6 +20,7 @@ if ($productData) {
         new DateTime($productData['updatedAt'])
     );
 
+    // Récupération de la catégorie associée
     $category = $product->getCategory($pdo);
     if ($category) {
         // Affichage des informations de la catégorie
